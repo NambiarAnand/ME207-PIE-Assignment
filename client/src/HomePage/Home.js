@@ -23,24 +23,18 @@ const Home = () => {
 
             if (method === "User specific") {
                 const orderArray = userOrder.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id));
-                
-                // Create job schedule based on user-defined order
                 const orderedSchedule = orderArray.map(jobId => {
                     const job = response.data.job_data.find(j => j[0] === jobId);
-                    return job ? [...job, null] : null; // Add null for completion time initially
+                    return job ? [...job, null] : null;
                 }).filter(job => job !== null);
-
-                // Calculate completion times based on the ordered jobs
                 let startTime = 0;
                 orderedSchedule.forEach(job => {
-                    job[3] = startTime + job[1]; // [Job ID, Processing Time, Due Date, Completion Time]
+                    job[3] = startTime + job[1];
                     startTime += job[1];
                 });
 
                 setJobSchedule(orderedSchedule);
             } else {
-                // If not user-specific, calculate job schedule based on backend response
-                // Assuming the backend already provides completion times for other methods
                 setJobSchedule(response.data.job_schedule);
             }
         } catch (error) {
