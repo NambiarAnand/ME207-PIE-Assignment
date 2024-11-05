@@ -71,7 +71,7 @@ Here are some common issues you may encounter and how to solve them:
          1. Open PowerShell as Administrator.
          2. Run the following command to allow scripts to run:
             ```powershell
-            Set-ExecutionPolicy RemoteSigned
+            Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
             ```
          3. Type **Y** to confirm, then press Enter. This change allows PowerShell to execute local scripts while still protecting against remote scripts.
 
