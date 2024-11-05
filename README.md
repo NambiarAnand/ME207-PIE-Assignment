@@ -57,9 +57,5 @@ This project is a Node.js-based React website. To run the project locally, follo
 - Rucha Jatin Prabhu
 - Lavanya Bhatnagar
 - Muhammed Nihal K
-- Nambiar Anand Sreenivasan
-
-## License
-
-This project is open-source and available under the [MIT License](LICENSE).
+- Nambiar Anand Sreenivasan _(230003046)_
 
