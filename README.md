@@ -81,5 +81,5 @@ Here are some common issues you may encounter and how to solve them:
 - Koyna Pandit *(230003034)*
 - Rucha Jatin Prabhu
 - Lavanya Bhatnagar
-- Muhammed Nihal K
+- Muhammed Nihal *(230003044)*
 - Nambiar Anand Sreenivasan *(230003046)*
