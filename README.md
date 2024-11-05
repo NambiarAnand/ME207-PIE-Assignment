@@ -79,7 +79,7 @@ Here are some common issues you may encounter and how to solve them:
 
 - Sri Varsha Dodda
 - Koyna Pandit *(230003034)*
-- Rucha Jatin Prabhu
+- Rucha Jatin Prabhu *(230003060)* 
 - Lavanya Bhatnagar
 - Muhammed Nihal *(230003044)*
 - Nambiar Anand Sreenivasan *(230003046)*
