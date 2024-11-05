@@ -1,15 +1,15 @@
 # Job Scheduling Simulator
 
-A Node.js and React-based web application that simulates job scheduling on a single machine with various scheduling algorithms. This project helps users understand different scheduling strategies and experiment with custom conditions for job processing times and due dates.
+A *Node.js* and *React*-based web application that simulates job scheduling on a single machine with various scheduling algorithms. This project helps users understand different scheduling strategies and experiment with custom conditions for job processing times and due dates.
 
 ## Features
 
 ### Supported Scheduling Algorithms
-- **FCFS** (First-Come-First-Serve): Jobs are processed in the order they arrive.
-- **SPT** (Shortest Processing Time): Jobs with the shortest processing times are prioritized.
-- **LPT** (Longest Processing Time): Jobs with the longest processing times are prioritized.
-- **SST** (Shortest Slack Time): Jobs with the smallest slack (time until due date minus processing time) are prioritized.
-- **SCR** (Slack per Remaining Operations): A variant of SST focusing on remaining operations.
+- **FCFS** (*First-Come-First-Serve*): Jobs are processed in the order they arrive.
+- **SPT** (*Shortest Processing Time*): Jobs with the shortest processing times are prioritized.
+- **LPT** (*Longest Processing Time*): Jobs with the longest processing times are prioritized.
+- **SST** (*Shortest Slack Time*): Jobs with the smallest slack (time until due date minus processing time) are prioritized.
+- **SCR** (*Slack per Remaining Operations*): A variant of SST focusing on remaining operations.
 - **User-Specific**: Allows users to define a custom job order.
 
 ### Processing Time Conditions
@@ -50,6 +50,31 @@ This project is a Node.js-based React website. To run the project locally, follo
 4. **Access the Application**:
    - Open your web browser and navigate to `http://localhost:3000` to use the scheduling simulator.
 
+## Probable Difficulties
+
+Here are some common issues you may encounter and how to solve them:
+
+### 1. `npm not defined`
+   - This error can occur if Node.js is not added to your system’s environment variables.
+   - **Solution**:
+      - **Windows**:
+         1. Open the **Start Menu**, search for *Environment Variables*, and select **Edit the system environment variables**.
+         2. In the System Properties window, click **Environment Variables**.
+         3. Find the **Path** variable under *System variables*, select it, and click **Edit**.
+         4. Click **New** and add the path to your Node.js installation (e.g., `C:\Program Files\nodejs\`).
+         5. Click **OK** to save the changes, then restart your terminal and try running `npm` again.
+
+### 2. PowerShell script execution is blocked
+   - If you see an error related to PowerShell not allowing script execution, it’s likely due to PowerShell’s *execution policy* settings.
+   - **Solution**:
+      - **Windows**:
+         1. Open PowerShell as Administrator.
+         2. Run the following command to allow scripts to run:
+            ```powershell
+            Set-ExecutionPolicy RemoteSigned
+            ```
+         3. Type **Y** to confirm, then press Enter. This change allows PowerShell to execute local scripts while still protecting against remote scripts.
+
 ## Contributors
 
 - Sri Varsha Dodda
@@ -57,5 +82,4 @@ This project is a Node.js-based React website. To run the project locally, follo
 - Rucha Jatin Prabhu
 - Lavanya Bhatnagar
 - Muhammed Nihal K
-- Nambiar Anand Sreenivasan _(230003046)_
-
+- Nambiar Anand Sreenivasan *(230003046)*
