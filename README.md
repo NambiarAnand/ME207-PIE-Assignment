@@ -36,7 +36,7 @@ This project is a Node.js-based React website. To run the project locally, follo
 2. **Install dependencies** and start the client:
     ```bash
     cd client
-    npm install
+    npm install #if you are running it for the first time
     npm start
     ```
 
