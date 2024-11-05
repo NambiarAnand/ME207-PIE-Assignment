@@ -78,7 +78,7 @@ Here are some common issues you may encounter and how to solve them:
 ## Contributors
 
 - Sri Varsha Dodda
-- Koyna Pandit
+- Koyna Pandit *(230003034)*
 - Rucha Jatin Prabhu
 - Lavanya Bhatnagar
 - Muhammed Nihal K
