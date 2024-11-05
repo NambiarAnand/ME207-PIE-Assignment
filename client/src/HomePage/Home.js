@@ -167,7 +167,7 @@ const Home = () => {
                         <tr key={index} className="hover:bg-gray-100">
                             <td className="py-2 px-4 border">{job[0]}</td>
                             <td className="py-2 px-4 border">{job[1]}</td>
-                            <td className="py-2 px-4 border">{job[3]}</td> {/* Completion time is now in the 4th position */}
+                            <td className="py-2 px-4 border">{job[2]}</td>
                         </tr>
                     ))}
                 </tbody>
