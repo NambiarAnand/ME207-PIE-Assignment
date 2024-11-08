@@ -33,21 +33,26 @@ This project is a Node.js-based React website. To run the project locally, follo
 
 1. **Clone the repository** and navigate to the project directory.
 
-2. **Install dependencies** and start the client:
+2. **Install dependencies**:
+    ```bash
+    pip install flask
+    pip install flask_cors
+    ```
+3. **Start the Client**
     ```bash
     cd client
     npm install #if you are running it for the first time
     npm start
     ```
 
-3. **Start the server**:
+4. **Start the server**:
     Open a new terminal, then run:
     ```bash
     cd server
     python app.py
     ```
 
-4. **Access the Application**:
+5. **Access the Application**:
    - Open your web browser and navigate to `http://localhost:3000` to use the scheduling simulator.
 
 ## Probable Difficulties
