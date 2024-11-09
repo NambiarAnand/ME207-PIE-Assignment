@@ -79,6 +79,20 @@ Here are some common issues you may encounter and how to solve them:
             Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
             ```
          3. Type **Y** to confirm, then press Enter. This change allows PowerShell to execute local scripts while still protecting against remote scripts.
+   
+- If you see the error:
+  ```powershell
+  'Set-ExecutionPolicy' is not recognized as an internal or external command, operable program or batch file.
+  ```
+     - **Solution**:
+        1. Run the following command on Windows Powershell:
+            ```powershell
+            Get-ExecutionPolicy
+            ```
+        2. Make sure it is Unrestricted. If the command returned 'Restricted' then Run:
+           ```Powershell
+           Set-ExecutionPolicy Bypass -Scope Process
+           ```
 
 ## Contributors
 
