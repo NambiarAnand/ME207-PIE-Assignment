@@ -28,6 +28,17 @@ This project is a Node.js-based React website. To run the project locally, follo
 ### Prerequisites
 - Install [Node.js](https://nodejs.org/) from the official website.
 - Ensure you have Python installed for the server-side script.
+- The script is tested on nodejs version 16.16.0.
+### Important Note for Node.js users v17 or older:
+- If you are using Node.js version 17 or later, please update the App.js file to avoid compilation issues. Follow these steps:
+    -Navigate to the project directory:
+       ```client/src/App.js
+      ```
+
+  -Add the following import statement:
+      ```
+      import React from 'react';
+      ``` 
 
 ### Installation and Execution
 
