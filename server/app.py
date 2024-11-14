@@ -56,15 +56,15 @@ class Scheduler:
 
     def schedule_and_calculate(self, scheduling_method):
         if scheduling_method == "FCFS":
-            sorted_jobs = sorted(self.jobs, key=lambda job: job.job_id)
+            sorted_jobs = sorted(self.jobs, key=lambda job: (job.job_id, job.due_date))
         elif scheduling_method == "SPT":
-            sorted_jobs = sorted(self.jobs, key=lambda job: job.processing_time)
+            sorted_jobs = sorted(self.jobs, key=lambda job: (job.processing_time, job.due_date))
         elif scheduling_method == "LPT":
-            sorted_jobs = sorted(self.jobs, key=lambda job: -job.processing_time)
+            sorted_jobs = sorted(self.jobs, key=lambda job: (-job.processing_time, job.due_date))
         elif scheduling_method == "SST":
-            sorted_jobs = sorted(self.jobs, key=lambda job: job.slack_time)
+            sorted_jobs = sorted(self.jobs, key=lambda job: (job.slack_time, job.due_date))
         elif scheduling_method == "SCR":
-            sorted_jobs = sorted(self.jobs, key=lambda job: job.criticality_ratio)
+            sorted_jobs = sorted(self.jobs, key=lambda job: (job.criticality_ratio, job.due_date))
         else:
             sorted_jobs = self.jobs[:]
             random.shuffle(sorted_jobs)
