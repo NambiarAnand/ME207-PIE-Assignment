@@ -7,9 +7,12 @@ const Home = () => {
     const [cased, setCased] = useState(1);
     const [method, setMethod] = useState("FCFS");
     const [jobData, setJobData] = useState([]);
-    const [jobSchedule, setJobSchedule] = useState([]);
-    const [metrics, setMetrics] = useState({});
+    const [allSchedules, setAllSchedules] = useState({});
+    const [allMetrics, setAllMetrics] = useState({});
     const [userOrder, setUserOrder] = useState('');
+    const [selectedAlgorithm, setSelectedAlgorithm] = useState("FCFS");
+
+    const algorithms = ["FCFS", "SPT", "LPT", "SST", "SCR", "User specific"];
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,25 +24,9 @@ const Home = () => {
                 method: method,
             });
             setJobData(response.data.job_data);
-            setMetrics(response.data.metrics);
-
-            if (method === "User specific") {
-                const orderArray = userOrder.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id));
-                const orderedSchedule = orderArray.map(jobId => {
-                    const job = response.data.job_data.find(j => j.job_id === jobId);
-                    return job ? { ...job, completion_time: null } : null;
-                }).filter(job => job !== null);
-
-                let startTime = 0;
-                orderedSchedule.forEach(job => {
-                    job.completion_time = startTime + job.processing_time;
-                    startTime += job.processing_time;
-                });
-
-                setJobSchedule(orderedSchedule);
-            } else {
-                setJobSchedule(response.data.schedules[method]);
-            }
+            setAllSchedules(response.data.schedules);
+            setAllMetrics(response.data.metrics);
+            setSelectedAlgorithm(method); // Set default selected algorithm to the initial method chosen
         } catch (error) {
             console.error("Error scheduling jobs", error);
         }
@@ -51,10 +38,19 @@ const Home = () => {
         setCased(1);
         setMethod("FCFS");
         setJobData([]);
-        setJobSchedule([]);
-        setMetrics({});
+        setAllSchedules({});
+        setAllMetrics({});
         setUserOrder('');
+        setSelectedAlgorithm("FCFS");
     };
+
+    const handleAlgorithmChange = (e) => {
+        setSelectedAlgorithm(e.target.value);
+    };
+
+    // Get the schedule and metrics for the selected algorithm
+    const jobSchedule = allSchedules[selectedAlgorithm] || [];
+    const metrics = allMetrics[selectedAlgorithm] || {};
 
     return (
         <div className="max-w-4xl mx-auto p-4">
@@ -100,12 +96,9 @@ const Home = () => {
                         onChange={(e) => setMethod(e.target.value)}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
                     >
-                        <option value="FCFS">FCFS</option>
-                        <option value="SPT">SPT</option>
-                        <option value="LPT">LPT</option>
-                        <option value="SST">SST</option>
-                        <option value="SCR">SCR</option>
-                        <option value="User specific">User Specific</option>
+                        {algorithms.map((algo) => (
+                            <option key={algo} value={algo}>{algo}</option>
+                        ))}
                     </select>
                 </div>
                 {method === "User specific" && (
@@ -151,7 +144,22 @@ const Home = () => {
                 </table>
             </>}
 
-            <h2 className="text-xl font-bold mt-8">Job Schedule</h2>
+            {/* Algorithm Selection Dropdown */}
+            {Object.keys(allSchedules).length > 0 && (
+                <div className="mt-8">
+                    <h2 className="text-xl font-bold">Select Algorithm to View Schedule</h2>
+                    <div className="flex items-center mb-4">
+                        <label className="mr-2">Algorithm:</label>
+                        <select value={selectedAlgorithm} onChange={handleAlgorithmChange} className="shadow appearance-none border rounded py-2 px-3 text-gray-700">
+                            {algorithms.map((algo) => (
+                                <option key={algo} value={algo}>{algo}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+            )}
+
+            <h2 className="text-xl font-bold mt-8">Job Schedule ({selectedAlgorithm})</h2>
             <table className="min-w-full bg-white shadow-md rounded">
                 <thead>
                     <tr>
@@ -171,7 +179,7 @@ const Home = () => {
                 </tbody>
             </table>
 
-            {Object.keys(metrics).length > 0 && (
+            {Object.keys(allMetrics).length > 0 && (
                 <div className="mt-8">
                     <h2 className="text-xl font-bold">Algorithm Metrics Comparison</h2>
                     <table className="min-w-full bg-white shadow-md rounded mt-4">
@@ -185,8 +193,8 @@ const Home = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {Object.entries(metrics).map(([algorithm, data], index) => (
-                                <tr key={index} className="hover:bg-gray-100">
+                            {Object.entries(allMetrics).map(([algorithm, data], index) => (
+                                <tr key={index} className={`hover:bg-gray-100 ${algorithm === selectedAlgorithm ? 'bg-blue-100' : ''}`}>
                                     <td className="py-2 px-4 border">{algorithm}</td>
                                     <td className="py-2 px-4 border">{data.completion_time}</td>
                                     <td className="py-2 px-4 border">{data.flow_time}</td>
@@ -216,7 +224,6 @@ const Home = () => {
                     </div>
                 </div>
             </footer>
-
         </div>
     );
 };
