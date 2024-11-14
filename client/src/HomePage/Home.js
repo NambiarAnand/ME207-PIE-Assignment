@@ -8,6 +8,7 @@ const Home = () => {
     const [method, setMethod] = useState("FCFS");
     const [jobData, setJobData] = useState([]);
     const [jobSchedule, setJobSchedule] = useState([]);
+    const [metrics, setMetrics] = useState({});
     const [userOrder, setUserOrder] = useState('');
 
     const handleSubmit = async (e) => {
@@ -20,22 +21,24 @@ const Home = () => {
                 method: method,
             });
             setJobData(response.data.job_data);
+            setMetrics(response.data.metrics);
 
             if (method === "User specific") {
                 const orderArray = userOrder.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id));
                 const orderedSchedule = orderArray.map(jobId => {
-                    const job = response.data.job_data.find(j => j[0] === jobId);
-                    return job ? [...job, null] : null;
+                    const job = response.data.job_data.find(j => j.job_id === jobId);
+                    return job ? { ...job, completion_time: null } : null;
                 }).filter(job => job !== null);
+
                 let startTime = 0;
                 orderedSchedule.forEach(job => {
-                    job[3] = startTime + job[1];
-                    startTime += job[1];
+                    job.completion_time = startTime + job.processing_time;
+                    startTime += job.processing_time;
                 });
 
                 setJobSchedule(orderedSchedule);
             } else {
-                setJobSchedule(response.data.job_schedule);
+                setJobSchedule(response.data.schedules[method]);
             }
         } catch (error) {
             console.error("Error scheduling jobs", error);
@@ -49,6 +52,7 @@ const Home = () => {
         setMethod("FCFS");
         setJobData([]);
         setJobSchedule([]);
+        setMetrics({});
         setUserOrder('');
     };
 
@@ -138,9 +142,9 @@ const Home = () => {
                     <tbody>
                         {jobData.map((job, index) => (
                             <tr key={index} className="hover:bg-gray-100">
-                                <td className="py-2 px-4 border">{job[0]}</td>
-                                <td className="py-2 px-4 border">{job[1]}</td>
-                                <td className="py-2 px-4 border">{job[2]}</td>
+                                <td className="py-2 px-4 border">{job.job_id}</td>
+                                <td className="py-2 px-4 border">{job.processing_time}</td>
+                                <td className="py-2 px-4 border">{job.due_date}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -159,13 +163,41 @@ const Home = () => {
                 <tbody>
                     {jobSchedule.map((job, index) => (
                         <tr key={index} className="hover:bg-gray-100">
-                            <td className="py-2 px-4 border">{job[0]}</td>
-                            <td className="py-2 px-4 border">{job[1]}</td>
-                            <td className="py-2 px-4 border">{job[2]}</td>
+                            <td className="py-2 px-4 border">{job.job_id}</td>
+                            <td className="py-2 px-4 border">{job.processing_time}</td>
+                            <td className="py-2 px-4 border">{job.completion_time}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+
+            {Object.keys(metrics).length > 0 && (
+                <div className="mt-8">
+                    <h2 className="text-xl font-bold">Algorithm Metrics Comparison</h2>
+                    <table className="min-w-full bg-white shadow-md rounded mt-4">
+                        <thead>
+                            <tr>
+                                <th className="py-2 px-4 border">Algorithm</th>
+                                <th className="py-2 px-4 border">Completion Time</th>
+                                <th className="py-2 px-4 border">Flow Time</th>
+                                <th className="py-2 px-4 border">Tardiness</th>
+                                <th className="py-2 px-4 border">Utilization</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Object.entries(metrics).map(([algorithm, data], index) => (
+                                <tr key={index} className="hover:bg-gray-100">
+                                    <td className="py-2 px-4 border">{algorithm}</td>
+                                    <td className="py-2 px-4 border">{data.completion_time}</td>
+                                    <td className="py-2 px-4 border">{data.flow_time}</td>
+                                    <td className="py-2 px-4 border">{data.tardiness}</td>
+                                    <td className="py-2 px-4 border">{data.utilization}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
 
             <footer className="mt-10 bg-gray-800 text-white p-6 rounded-lg shadow-lg">
                 <div className="text-center">
